@@ -4,42 +4,46 @@ Newspade
 Welcome to this space. For the finished product you can visit http://newspade.com and play around with the search engine
 
 The main purpose of this documentation is to give developers a chance to add their own scrapers an successfully run them in production time. Please note that due to this I will only cover the code hosted on the mysites app. However i will give a quick recap on the articles application towards the end of this documentation.
+
 Installation.
+-------------
 
 for installing this application just clone this application with ::
 
-git clone "https://github.com/cmwaura/Newspade.git"
+    git clone "https://github.com/cmwaura/Newspade.git"
 
 then cd into the root directory::
 
-cd analyst
+    cd analyst
 
 Requirements needed for the project
+-----------------------------------
 
 you will need the python2.7 interpreter and pip installed in the computer. you will also need the virtualenv or virtualenv wrapper installed in your computer and activated to create your env. All the requirements have been added on the requirements.txt file in the project. Once you have the project simply::
 
- pip install -r requirements.txt
+     pip install -r requirements.txt
 
 and all the requirements will be installed for you. For people using a Linux distro this should be enough for you. However for people using windows you will need an extra addition of pywin32.exe. Install it to your local drive then use easy_install to add it to your environment::
 
-easy_install C:\>path\to\your\pywin32\install
+     easy_install C:\>path\to\your\pywin32\install
 
 The next few steps from here will be the usual django steps where you prepare the database and create a super user.
-
-#prepare the db with sqlite3
-python manage.py migrate
-#prepare the superuser.
-python manage.py createsuperuser
-# finally this last step will be for collecting the static files.
-python manage.py collectstatic.
+    
+    #prepare the db with sqlite3
+    python manage.py migrate
+    #prepare the superuser.
+    python manage.py createsuperuser
+    # finally this last step will be for collecting the static files.
+    python manage.py collectstatic.
 
 One you have done all this just run the server and go to http://127.0.0.1:800/admin and log in and you are good to go for the main steps.
+
 Mysites Application.
+---------------------
 1) Dynamic_Scraper Settings:
 
 If you got to this point, there are a few things that you have have noticed on the console the Dynamic Scraper application. This is the first portion of actually running the spiders. In order to start the process click on "Scraper object classes" then add an object class. In this example i will use the "data_obj_bbc" class.
 
-Once you have given the object class a name(data_obj_bbc) then scroll down and you will find a section called scraped obj attrs as show below alt text
 
 Inorder to understand this step i will refer you to the actual code that represents the next few steps: open mysites/models.py and you will find this code::
 
@@ -104,6 +108,8 @@ IV) Description: Order = 40 Attr type = STANDARD
 One last thing to note is that company is a default value so we do not need to add it as an object class. The BBC company will be automatically added. Similar to that, the date is the date the scraper will be run and that too is automatic.
 
 Save that bad boy and we are onto the next challenge.
+
+
 2)Scrapers
 
 Time to add the scrapers. Well in this Scenario we will be scraping the Rss feeds since its way more easier than the actual page. Click on the scraper and add a scraper with the name of BBC scraper. The Scraped obj class will be what we created earlier "data_obj_bbc" The status of this scraper is Manual. Once we activate Celery we will turn it to Active though.
@@ -139,14 +145,18 @@ X-Path rules apply.
 Save your changes and you are almost on the end.
 
 Finally go back to the main page and now go to the mysites app. This will be tilted mysites.
+
 Mysites.
+--------
 
 Now with all that i have been doing i havent had the time to rename the "News Websites" to "BBC Website" but by definition based on the code that i had displayed above, the NewsWebsite Model and the BBCNews Model share a foreign key relationship. So for instance if you look at the AljazeeraWebsites Model and the AljazeeraNews model, you will realize that they have a foreign key relation.
 
 So now that we have identified these relationships lets work on the actual links. So pick a link that holds the rss feeds from BBC and copy it. Click on NewsWebsites and create a news website.
 
 Give it the title you want: i.e, BBC RSS for the url it will be the link that you have copies or the rss page link. choose the scraper we created 'Scraper bbc' and under scraper runtime add click the (+) button. Add the scraper runtime of 1 and click the save button.
+
 Run the Spiders.
+----------------
 
 In the command line type::
 
@@ -155,7 +165,9 @@ In the command line type::
 and then open the BBC News page. Voila all the news should be there.
 
 This was a quick run down of how to run the scrapy spider and get the foundation of actually testing the project.
+
 Multiprocessing.
+----------------
 
 If you do decide to run a live version of the project on a server, please note that there are about 4 active spiders from BBC, Politico, Aljazeera, Reuters. In the next update i will add 5 more spiders from different news channels. Also feel free to make your own spiders and take them for a spin.
 
@@ -179,7 +191,9 @@ However, when it actually comes to scheduling the spiders, you may face some dif
     main()
 
 This will create processes for your spiders to run. Its very simply implemented so if you find something more awesome to use other than this go for it.
+
 Developer Role.
+----------------
 
 So you want to contribute to making the spiders and getting more news to the news search website. Inorder to do this we will add new code to the following files.
 
