@@ -1,0 +1,43 @@
+ <style type="text/css">
+
+ 	ul li a{
+ 		text-align: center;
+ 		color: #21326f;
+ 	}
+ 	.token{
+ 		color: #21326f
+ 	}
+ </style>
+ <div id="sidebar-wrapper">
+ <ul class="sidebar-nav">
+
+ {% if "/" in request.get_full_path %}
+
+
+
+	
+		<li class="sidebar-brand">
+			<a href="#"> Search bar </a>
+		</li>
+		<li class="token">
+			<a href="{% url 'politics' %}">Politics</a>
+		</li>
+		<form method="get" action=".">
+		<li class="token">
+			<label class="">
+            	<input id="id_models_1" type="checkbox" value="mysites.aljazeeranews" name="models">AljazeeraNews
+            </label>
+		</li>
+		<li class="token">
+			<label class="">
+            <input id="id_models_1" type="checkbox" value="mysites.bbcnews" name="models">BBC News
+            </label>
+		</li>
+		</form>
+		<li class="tokens">
+			<a href="#">Events</a>
+		</li>
+
+{% endif %}
+</ul>
+</div>

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load markdown_deux_tags %}
+{% load crispy_forms_tags %}
+
+{% markdown_allowed %}
+
+{% block content %}
+
+<div class="col-sm-6 col-sm-offset3">
+{% if user.is_authenticated %}
+ <div class="row">      
+        	<div class="col-lg-12">
+        	{% if title %}
+	    					<h1 style="text-align:center;">{{ title }}</h1>
+    					{% endif %}	
+	        	<div>
+					<div class='row'>
+					
+						<div class='col-sm-6 col-sm-offset-3'>
+							
+							<form method='POST' class='text-dark' action='' enctype="multipart/form-data">
+
+							{% csrf_token %}
+
+								{{ form|crispy }}
+
+								<input class='btn btn-default' type='submit' value='Submit' />
+
+							</form>
+							{{form.media}}
+						</div><!-- /.container -->
+						
+					</div>
+				</div>
+			</div>
+	{% else %}
+	<div class="row">
+	<h2> Please Login to access this page!</h2>
+	</div>
+{% endif %}
+</div>
+{% endblock %}

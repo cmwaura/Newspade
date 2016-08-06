@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% load crispy_forms_tags %}
+{% load bootstrap_pagination %}
+{% load highlight %}
+
+
+{% block content %}
+{% include 'sidebar.html' %}
+<style>
+.bg-warning{
+    background-color:yellow;
+}
+#div_id_q{
+    width: 95%;
+    padding-left:10px; 
+}
+
+</style>
+
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-sm-12">
+		<div class="panel">
+
+                <h1 class="fontsforweb_fontid_13973" style="text-transform:lowercase;"> newspade </h1>
+    
+                    <form method="get" action=".">
+
+                        <table>
+                            <!-- {{ form|crispy}} -->
+                            <div id="div_id_q" class="-group">
+                           
+                            <div class="controls ">
+                            <input id="id_q" class="textinput textInput form-control" type="search" placeholder="search" name="q" placeholder="search">
+                            
+                               
+                            </div>
+                            </div>
+                            <!-- <label class="">
+                                <input id="id_models_1" type="checkbox" value="mysites.aljazeeranews" name="models">AljazeeraNews
+                            </label>
+                            <label class="">
+                                <input id="id_models_1" type="checkbox" value="mysites.bbcnews" name="models">BBC News
+                            </label> -->
+                                <td>&nbsp;</td>
+                                <td>
+                                    <input type="submit" value="Search" >
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        
+                        {% if query %}
+                            
+                            
+			
+
+                           
+                            <h4>Results based on your Search</h4>
+                            <hr>
+                            <ol>
+                            {% for result in page.object_list %}
+                            <li><h2><a href='{{ result.object.url  }}'> {{ result.object.title }}</a></h2></li>
+                            
+                               <p>{% highlight result.object.description with query css_class "bg-warning"%}</p>
+                                <ul id="menu"style="padding-left:0px;">
+                                  <li align="top" >Company: {{result.object.company}}</li>
+                                  <li><time> Last Updated on: {{result.object.date|date}}</time></li>
+                                </ul> 
+                                <hr/>
+                            
+                                <!-- </div> -->
+                            {% empty %}
+                                <p>No results found.</p>
+                            {% endfor %}
+                            </ol>
+                            {% if page.has_previous or page.has_next %}
+                                <div>
+                                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                                    |
+                                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                                </div>
+                            {% endif %}
+                            
+                        {% else %}
+                     
+                         <div class="container">
+                         <p> this will be the top/breaking news page </p>
+                        {# show some examples to run #}
+                        </div>
+                        {% endif %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

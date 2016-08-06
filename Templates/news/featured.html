@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap_pagination %}
+{% block content %}
+
+{% include 'sidebar.html' %}
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">      
+            <div class="panel">
+          <h4>The Top Stories Today</h4>
+          <!-- <div class="container"> -->
+          <ol>
+            {% for story in featured %}
+            {% if story.featured %}
+            
+            <h1 style="color:black"> {{story.title}}</h1>
+            
+
+            {% endif %}
+            {%endfor %}
+          </ol>
+              <ol>
+            {% for feature in featured %}
+
+                <li><h2><a href='{{ feature.url }}'> {{ feature.title}}</a></h2></li>
+                <p>{{feature.description|truncatewords_html:20|safe}}</p>
+                <ul id="menu"style="padding-left:0px;">
+                  <li align="top" >Company: {{feature.company}}</li>
+                  <li><time> Last Updated on: {{feature.date|date}}</time></li>
+                </ul> 
+                <hr/>                        
+            {% endfor %}
+                </ol>
+                
+      </div>
+      {% if is_paginated %}
+        <ul class = "pagination pagination-centered">
+          <!-- <span class="step-links"> -->
+            {% if page_obj.has_previous %}
+              <li><a href="/news/bbc/?page={{page_obj.previous_page_number}}">Previous</a></li>
+            {% endif %}
+
+            <li>
+              <span class="current">Page{{ page_obj.number }} of {{page_obj.paginator.num_pages}}.
+              </span>
+            </li>
+
+            {% if page_obj.has_next %}
+        `   <li>
+              <a href="/news/bbc/?page={{page_obj.next_page_number }}">next</a>
+            </li>
+        </ul>
+
+            {% endif %}
+        
+    </div>
+    </div>
+    </div>    
+    
+  {% endif %}
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-80069403-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+   </div>
+
+{% endblock %}
